@@ -1,0 +1,19 @@
+{
+	"name": "ooproxmox",
+	"version": "0.0.1",
+	"description": "nodejs Proxmox API implementation",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/spectrumbroad/ooproxmox"
+	},
+	"bugs": {
+		"url": "https://github.com/spectrumbroad/ooproxmox/issues"
+	},
+	"keywords": [
+		"proxmox"
+	],
+	"dependencies": {
+		"oohttp": "*"
+	}
+}
