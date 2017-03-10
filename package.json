@@ -1,5 +1,5 @@
 {
-	"name": "ooproxmox",
+	"name": "proxmox-wrapper",
 	"version": "0.0.1",
 	"description": "nodejs Proxmox API implementation",
 	"license": "MIT",
