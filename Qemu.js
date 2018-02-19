@@ -1,65 +1,62 @@
+'use strict';
+
 module.exports = function(PROXMOX, NODE) {
-
 	class Qemu {
-
 		constructor(obj) {
-
 			if (obj) {
 				Object.assign(this, obj);
 			}
-
 		}
 
-		getStatus() {
-
-			let req = PROXMOX.http.request('GET', `https://${PROXMOX.hostname}:${PROXMOX.port}/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/current`);
-			return req.toJson().then((data) => {
-				return data.data;
-			});
-
+		async getStatus() {
+			const req = await PROXMOX.request('GET', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/current`);
+			const data = await req.toJson();
+			return data.data;
 		}
 
-		clone(obj) {
-
-			let req = PROXMOX.http.request('POST', `https://${PROXMOX.hostname}:${PROXMOX.port}/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/clone`);
-			return req.toJson({
+		async clone(obj) {
+			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/clone`, {
 				newid: obj.newVmId,
 				name: obj.newName,
 				full: obj.full ? 1 : 0
 			});
-
 		}
 
 		start() {
-
-			let req = PROXMOX.http.request('POST', `https://${PROXMOX.hostname}:${PROXMOX.port}/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/start`);
-			return req.toJson();
-
+			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/start`);
 		}
 
 		stop() {
-
-			let req = PROXMOX.http.request('POST', `https://${PROXMOX.hostname}:${PROXMOX.port}/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/stop`);
-			return req.toJson();
-
+			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/stop`);
 		}
 
 		shutdown() {
+			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/shutdown`);
+		}
 
-			let req = PROXMOX.http.request('POST', `https://${PROXMOX.hostname}:${PROXMOX.port}/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/shutdown`);
-			return req.toJson();
+		suspend() {
+			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/suspend`);
+		}
 
+		reset() {
+			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/reset`);
 		}
 
 		delete() {
-
-			let req = PROXMOX.http.request('DELETE', `https://${PROXMOX.hostname}:${PROXMOX.port}/api2/json/nodes/${NODE.name}/qemu/${this.vmId}`);
-			return req.toJson();
-
+			return NODE.requestHandleUpid('DELETE', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}`);
 		}
 
+		static async getByVmId(vmId) {
+			const req = await PROXMOX.request('GET', `/api2/json/nodes/${encodeURIComponent(NODE.name)}/qemu/${vmId}`);
+			await req.toJson();
+			return new Qemu({vmId: vmId});
+		}
+
+		static async getAll() {
+			const req = await PROXMOX.request('GET', `/api2/json/nodes/${encodeURIComponent(NODE.name)}/qemu`);
+			return req.toObjectArray(Qemu);
+		}
 	}
 
 	return Qemu;
-
 };
