@@ -8,6 +8,7 @@ module.exports = function(PROXMOX) {
 			}
 
 			this.Qemu = require('./Qemu.js')(PROXMOX, this);
+			this.LxContainer = require('./LxContainer.js')(PROXMOX, this);
 			this.Task = require('./Task.js')(PROXMOX, this)
 		}
 
