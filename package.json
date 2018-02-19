@@ -1,22 +1,22 @@
 {
-	"name": "proxmox-wrapper",
-	"version": "0.1.0",
-	"description": "nodejs Proxmox API implementation",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/spectrumbroad/ooproxmox"
-	},
-	"bugs": {
-		"url": "https://github.com/spectrumbroad/ooproxmox/issues"
-	},
-	"keywords": [
-		"proxmox"
-	],
-	"scripts": {
+  "name": "proxmox-wrapper",
+  "version": "0.1.0",
+  "description": "nodejs Proxmox API implementation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spectrumbroad/ooproxmox"
+  },
+  "bugs": {
+    "url": "https://github.com/spectrumbroad/ooproxmox/issues"
+  },
+  "keywords": [
+    "proxmox"
+  ],
+  "scripts": {
     "prepublishOnly": "npm shrinkwrap --only=prod"
   },
-	"dependencies": {
-		"oohttp": "*"
-	}
+  "dependencies": {
+    "oohttp": "*"
+  }
 }

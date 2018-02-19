@@ -1,62 +1,62 @@
 'use strict';
 
 module.exports = function(PROXMOX, NODE) {
-	class Qemu {
-		constructor(obj) {
-			if (obj) {
-				Object.assign(this, obj);
-			}
-		}
+  class Qemu {
+    constructor(obj) {
+      if (obj) {
+        Object.assign(this, obj);
+      }
+    }
 
-		async getStatus() {
-			const req = await PROXMOX.request('GET', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/current`);
-			const data = await req.toJson();
-			return data.data;
-		}
+    async getStatus() {
+      const req = await PROXMOX.request('GET', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/current`);
+      const data = await req.toJson();
+      return data.data;
+    }
 
-		async clone(obj) {
-			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/clone`, {
-				newid: obj.newVmId,
-				name: obj.newName,
-				full: obj.full ? 1 : 0
-			});
-		}
+    async clone(obj) {
+      return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/clone`, {
+        newid: obj.newVmId,
+        name: obj.newName,
+        full: obj.full ? 1 : 0
+      });
+    }
 
-		start() {
-			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/start`);
-		}
+    start() {
+      return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/start`);
+    }
 
-		stop() {
-			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/stop`);
-		}
+    stop() {
+      return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/stop`);
+    }
 
-		shutdown() {
-			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/shutdown`);
-		}
+    shutdown() {
+      return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/shutdown`);
+    }
 
-		suspend() {
-			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/suspend`);
-		}
+    suspend() {
+      return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/suspend`);
+    }
 
-		reset() {
-			return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/reset`);
-		}
+    reset() {
+      return NODE.requestHandleUpid('POST', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}/status/reset`);
+    }
 
-		delete() {
-			return NODE.requestHandleUpid('DELETE', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}`);
-		}
+    delete() {
+      return NODE.requestHandleUpid('DELETE', `/api2/json/nodes/${NODE.name}/qemu/${this.vmId}`);
+    }
 
-		static async getByVmId(vmId) {
-			const req = await PROXMOX.request('GET', `/api2/json/nodes/${encodeURIComponent(NODE.name)}/qemu/${vmId}`);
-			await req.toJson();
-			return new Qemu({vmId: vmId});
-		}
+    static async getByVmId(vmId) {
+      const req = await PROXMOX.request('GET', `/api2/json/nodes/${encodeURIComponent(NODE.name)}/qemu/${vmId}`);
+      await req.toJson();
+      return new Qemu({vmId: vmId});
+    }
 
-		static async getAll() {
-			const req = await PROXMOX.request('GET', `/api2/json/nodes/${encodeURIComponent(NODE.name)}/qemu`);
-			return req.toObjectArray(Qemu);
-		}
-	}
+    static async getAll() {
+      const req = await PROXMOX.request('GET', `/api2/json/nodes/${encodeURIComponent(NODE.name)}/qemu`);
+      return req.toObjectArray(Qemu);
+    }
+  }
 
-	return Qemu;
+  return Qemu;
 };
