@@ -13,6 +13,9 @@
 	"keywords": [
 		"proxmox"
 	],
+	"scripts": {
+    "prepublishOnly": "npm shrinkwrap --only=prod"
+  },
 	"dependencies": {
 		"oohttp": "*"
 	}
