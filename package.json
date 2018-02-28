@@ -1,6 +1,6 @@
 {
   "name": "proxmox-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "nodejs Proxmox API implementation",
   "license": "MIT",
   "repository": {

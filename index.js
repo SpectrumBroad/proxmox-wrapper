@@ -28,7 +28,7 @@ class Proxmox {
 
   async request(method, reqUrl) {
     if (!this.ticketTime || Date.now() - this.ticketTime > 3600000) {
-      await this.login(this.username, this.ticket || this.password);
+      await this.login();
     }
     return this.http.request(method, reqUrl);
   }
@@ -38,6 +38,9 @@ class Proxmox {
       this.username = username;
     }
   
+    delete this.http.headers.Cookie;
+    delete this.http.headers.CSRFPreventionToken;
+
     const req = this.http.request('POST', `/api2/json/access/ticket`);
     const data = await req.toJson({
       username: this.username,
